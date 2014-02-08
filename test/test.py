@@ -1,13 +1,12 @@
 from direction_query import DirectionQuery
 from direction_response_parser import DirectionResponseParser
+from direction_printer import DirectionPrinter
 import httplib
 
-params = {'origin': 'Toronto', 'destination': 'New York'}
+params = {'origin': '11 e 4th manhttan ny', 'destination': '694 metropolitan ave brooklyn ny'}
 
 resp = DirectionQuery.get_directions(params)
 
-print resp.status
 steps = DirectionResponseParser.parse(resp)
 
-for step in steps:
-    print step.instructions
+DirectionPrinter.print_steps(steps)
