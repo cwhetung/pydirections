@@ -16,8 +16,6 @@ class DirectionQuery(object):
         self.conn = httplib.HTTPConnection(self.BASE_API_URL)
 
     def _get_directions(self):
-        print self.BASE_API_URL
-        print self.request_url()
         self.conn.request("GET", self.request_url())
         return self.conn.getresponse()
 
