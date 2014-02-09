@@ -13,13 +13,17 @@ class DirectionPrinter(object):
         self.departure = directions.departure_time
 
     def _print_steps(self):
-        self.print_instruction(self.arrival)
-        self.print_instruction(self.departure)
+        if self.arrival is not None and self.departure is not None:
+            self.print_timeline()
         for step in self.steps:
             self.print_instruction(step.instructions)
-            self.print_detail("distance: ", step.distance)
-            self.print_detail("duration: ", step.duration)
-            self.print_detail("travel_mode: ", step.travel_mode)
+            self.print_detail("\tdistance: ", step.distance)
+            self.print_detail("\tduration: ", step.duration)
+            self.print_detail("\ttravel_mode: ", step.travel_mode)
+
+    def print_timeline(self):
+        self.print_detail("depart at: ", self.departure)
+        self.print_detail("arrive at: ", self.arrival)
 
     def print_instruction(self, instruction):
         print self.add_color("GREEN", instruction)
@@ -27,7 +31,7 @@ class DirectionPrinter(object):
     def print_detail(self, detail_prompt, detail):
         color_prompt = self.add_color("PURPLE", detail_prompt)
         color_detail = self.add_color("ORANGE", detail)
-        print "\t{0}{1}".format(color_prompt, color_detail)
+        print "{0}{1}".format(color_prompt, color_detail)
         
     def add_color(self, color, string):
         return pcolors.COLOR_DICT[color] + string + pcolors.ENDC

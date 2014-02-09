@@ -1,5 +1,6 @@
 import httplib
 import urllib
+import time
 
 class DirectionQuery(object):
 
@@ -31,4 +32,4 @@ class DirectionQuery(object):
         return request_params
 
     def default_params(self):
-        return { "sensor": "false" }
+        return { "sensor": "false", "departure_time": int(time.time())}

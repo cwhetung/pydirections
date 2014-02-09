@@ -11,11 +11,12 @@ class DirectionResponseParser(object):
 
     def __init__(self, response):
         self.response = response
+        self.json_dict = json.loads(response.read())
         self.directions = Directions()
 
     def _parse(self):
         if self.response_valid():
-            #self.set_timeline()
+            self.set_timeline()
             self.build_steps()
             return self.directions     
         else:
@@ -25,17 +26,14 @@ class DirectionResponseParser(object):
         return self.response.status == 200
 
     def set_timeline(self):
-        json_dict = self.response_dict()
-        arrival = json_dict['routes'][0]['legs'][0]['arrival_time']['text']
-        departure = json_dict['routes'][0]['legs'][0]['departure_time']['text']
-        self.directions.set_timeline(arrival, departure)   
+        route = self.json_dict['routes'][0]['legs'][0]
+        if 'arrival_time' in route.keys() and 'departure_time' in route.keys():
+            arrival = route['arrival_time']['text']
+            departure = route['departure_time']['text']
+            self.directions.set_timeline(arrival, departure)   
 
     def build_steps(self): 
-        json_dict = self.response_dict()
-        steps = json_dict['routes'][0]['legs'][0]['steps']
+        steps = self.json_dict['routes'][0]['legs'][0]['steps']
         
         for step in steps:
             self.directions.add_step(DirectionStep(step))
-
-    def response_dict(self):
-        return json.loads(self.response.read())

@@ -1,13 +1,13 @@
 class Directions(object):
 
     def __init__(self):
-        self.arrival_time = ""
-        self.departure_time = ""
+        self.arrival_time = None
+        self.departure_time = None
         self.steps = []
 
     def add_step(self, step):
         self.steps.append(step)
 
-    def set_timeline(self, arrvial, departure):
+    def set_timeline(self, arrival, departure):
         self.arrival_time = arrival
-        self.departure = departure
+        self.departure_time = departure
